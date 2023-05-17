@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page title</title>
+    <link rel="stylesheet" href="/stylesheets/templates.css">
+    <link rel="stylesheet" href="/stylesheets/footer.css">
+
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-js">
+            <div class="mobile-menu">
+                <a href="/"><img src="{% static '/assets/Logo.svg' %}" alt="logo" class="nav-logo"></a>
+                <a href="" class="hamburger" onclick="toggleMenu()">
+                    <img src="{% static '/assets/menu.svg' %}" alt="menu" width="32px" height="32px" class="menu-btn">
+                </a>
+            
+            </div>
+            <div class="links-btns">
+                <ul class="nav-links">
+                    <li><a href="teamdetails">Our Team</a></li>
+                    <li><a href="faq">FAQs</a></li>
+                    <li><a href="contact" class="active-link">Contact Us</a></li>
+                </ul>
+                <div class="nav-btns">
+                    <% if (currentUser) {%>
+                    <a href="/logout"><button class="btn-1">Logout</button></a>
+                     <%} else {%>
+                    <a href="/login"><button class="btn-1">Login</button></a>
+                    <a href="/register"><button class="btn-2">Get Started</button></a>
+                     <% } %>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+       <main>
+        <div class="con">
+            <div class="htxt">
+           <h1>Your Generated Privacy Policy<br></h1> 
+           
+           </div>
+            <div class="view">
+                <section style="color:#7c746c; text-align:center">
+        <h2 >Here are your Privacy Policies</h2><br>
+
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for templates.." title="Type in a keyword">
+        
+        <table id="myTable" class="iframe">
+            <tr class="header">
+                <th ><a href="/myTemplates">All Templates</a></th>
+                <th ><a href="/tcTemplates">Terms and Condition Templates</a></th>
+            
+            </tr>
+            <tr class="header">
+                <th style="text-align: end;">Terms and Conditions Templates</th>
+                <th></th>
+            
+            </tr>
+            <% for(let template of templates) {%>
+            <tr>
+                <% if(template.tc == 'T&C') { %> 
+            <td > 
+                <a class="active" href="/myTemplates/<%=template._id%>"> <%= template.company_name %></a>
+            </td>
+                <td></td>
+                <% } %>
+            </tr>
+            <% } %>
+    
+            </table>
+
+
+        </section>
+        </div>
+        </div>
+
+        <div class="txt">
+        <h2></h2>
+        </div>
+
+        </main>
+       
+        <footer>
+            <div class="ft-logo">
+                <p>Questions? Email us at support@78tcgen.com</p>
+                <img src="{% static '/assets/Logo_white.svg' %}" alt="logo">
+            </div>
+            <div class="disclaimer-questions">
+                <div class="footerlinks">
+                    <p>Disclaimer: Please note that legal information, including legal templates and legal policies, is not legal advice.
+                        Information and services provided on the site are for informational and self-help purposes only and
+                        are not to be a substitute for professional legal advice. <a href="#"> Read the full disclaimer.</a></p>
+                </div>
+                <div class="footer-txt">
+                   
+                    <ul>
+                        <li><a href="">Privacy Policy</a></li>
+                        <li><a href=""><span class="circle-divider"></span>Terms of Use</a></li>
+                    </ul>
+                    <p>78TC Gen &copy; <span id='year'></span>. All rights reserved.</p>
+                </div> 
+            </div>
+        </footer>
+    
+        <script>
+            // Mobile reponsiveness
+           let menu = document.querySelector('.hamburger');
+           let menuClose = document.querySelector('.menu-btn');
+       
+           function toggleMenu() {
+               let navLinks = document.querySelector('.nav-links');
+               let navBtns = document.querySelector('.nav-btns');
+               let header = document.querySelector(".header");
+               let navbar = document.querySelector('.nav-js');
+       
+               if (((navLinks.style.display === 'flex') && (navBtns.style.display === 'flex')) && (navLinks.style.flexDirection !== 'column')){
+                   menuClose.src = './assets/menu.svg';
+                   navLinks.style.display = 'none';
+                   navBtns.style.display = 'none';
+                   navbar.style.height = 'auto';
+                   navbar.style.backgroundColor = '#fff';
+                       
+                   console.log(true);
+               }else{
+                   navLinks.style.display = 'flex';
+                   navBtns.style.display = 'flex';
+                   // addBtns.style.display = 'flex';
+                   menuClose.src = './assets/close-circle.svg';
+                   navbar.style.height = '100vh';
+                   navbar.style.backgroundColor = '#721121';
+                   navbar.style.color = '#fff';
+                   header.style.paddingTop = '0px';
+                   console.log(false);
+                   }
+               }
+       
+               menu.addEventListener('click', (e) => {
+                   e.preventDefault();
+                   // toggleMenu();
+               });
+       
+       
+               
+               // Footer
+               let year = document.getElementById('year');
+               let yyyy = new Date();
+               year.textContent = yyyy.getFullYear();
+       
+   
+   // Main
+   function myFunction() {
+       var input, filter, table, tr, td, i, txtValue;
+       input = document.getElementById("myInput");
+       filter = input.value.toUpperCase();
+       table = document.getElementById("myTable");
+       tr = table.getElementsByTagName("tr");
+       for (i = 0; i < tr.length; i++) {
+         td = tr[i].getElementsByTagName("td")[0];
+         if (td) {
+           txtValue = td.textContent || td.innerText;
+           if (txtValue.toUpperCase().indexOf(filter) > -1) {
+             tr[i].style.display = "";
+           } else {
+             tr[i].style.display = "none";
+           }
+         }       
+       }
+     }
+       </script>
+</body>
+=======
+</html>
+
+
