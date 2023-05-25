@@ -21,11 +21,15 @@ const Template = require('./models/template');
 const { verifyToken, isLoggedIn } = require('./middleware');
 
 
-mongoose.connect('mongodb://localhost:27017/tcGenDb', {
+// mongoose.connect('mongodb://localhost:27017/tcGenDb', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
+
+mongoose.connect('mongodb://mongo:acH0a8Ko3FjvQWEDu345@containers-us-west-54.railway.app:7190', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
-
 
 
 const db = mongoose.connection;
@@ -108,6 +112,7 @@ app.post('/register',  (catchAsync( async(req, res, next) => {
 
     hashedPassword = await bcrypt.hash(password, 10);
     // console.log(hashedPassword)
+    // console.log(password)
     const user = await User.create({
         first_name,
         last_name,
@@ -125,7 +130,8 @@ app.post('/register',  (catchAsync( async(req, res, next) => {
     );
     user.token = token;
 
-    res.status(201).json(user);
+    res.redirect(`dashboard/${user.id}`)
+
 
    
 } catch (err) {
@@ -210,7 +216,7 @@ app.post('/index', isLoggedIn, catchAsync(async(req, res, next) => {
         author: req.session.user_id
     })
     console.log(tc)
-    res.send(template)
+    res.redirect(`myTemplates/${template._id}`)
 }))
 
 app.get('/newpp', isLoggedIn, catchAsync(async(req, res, next) => {
@@ -239,7 +245,7 @@ app.post('/indexx', isLoggedIn, catchAsync(async(req, res, next) => {
         author: req.session.user_id
     })
     console.log(tc)
-    res.send(template)
+    res.redirect(`myTemplates/${template._id}`)
 }))
 
 app.get('/myTemplates', isLoggedIn, catchAsync(async(req, res, next) => {
