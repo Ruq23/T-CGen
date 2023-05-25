@@ -18,7 +18,7 @@
     <nav>
         <div class="mobile-menu">
             <div class="logo-container">
-                <a href="/"><img src="{% static '/assets/Logo.svg' %}" alt="logo" class=""></a>
+                <a style="text-decoration: none; color: #721121" href="/"> <h3>RuqGen</h3> </a>
             </div>
             <a href="" class="hamburger" onclick="toggleMenu()">
                 <span class="bars"></span>
@@ -27,26 +27,13 @@
             </a>
         </div>
         
-        <div class="add-btns">
-            <div class="support-btn">
-                <a href="contact"><img src="{% static '/assets/support-icon.svg' %}" alt="support icon">
-                <span class="">Support</span>
-                </a>
-            </div>
-            <div class="user-act-btn">
-                <a href="profile">
-                <img src="{% static '/assets/profile-circle.svg' %}" alt="profile icon">
-                <span class=""><%= user.first_name %></span>
-                </a>
-            </div>
-        </div>
+    
     </nav>
     <main>
         <h1>Welcome, <span><%=user.first_name %></span>!</h1>
         <p class="tagline">It's a good day to be free of legal hassles</p>
         <section class="preview-section">
             <div class="preview-card">
-                <img src="{% static '/assets/terms-and-conditions-icon.svg' %}" alt="terms & conditions icon" class="">
                 <h4>Terms & Conditions Generator</h4>
                 <div class="wrap-bottom">
                     <div class="desc-btn">
@@ -60,7 +47,6 @@
                 </div>
             </div>
             <div class="preview-card">
-                <img src="{% static '/assets/shield-tick.svg' %}" alt="privacy policy icon" class="">
                 <h4>Privacy Policy  Generator</h4>
                 <div class="wrap-bottom">
                     <div class="desc-btn">
@@ -75,19 +61,17 @@
                 </div>
             </div>
             <div class="preview-card">
-                <img src="{% static '/assets/writing.svg' %}" alt="drafts icon" class="">
                 <h4>Drafts</h4>
                 <div class="wrap-bottom">
                     <div class="desc-btn">
                        <p>All your progress are saved here. Pick up where you left off.</p>
-                        <a href="draft" class="start-btn">Resume
+                        <a href="/myTemplates" class="start-btn">Resume
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="preview-card">
-                <img src="{% static '/assets/verify.svg' %}" alt="completed icon" class="">
                 <h4>Completed</h4>
                 <div class="wrap-bottom">
                     <div class="desc-btn">
@@ -102,8 +86,8 @@
     </main>
     <footer>
         <div class="ft-logo">
-            <p>Questions? Email us at support@78tcgen.com</p>
-            <img src="{% static '/assets/Logo_white.svg' %}" alt="logo">
+            <p>Questions? Email us at support@test.com</p>
+            <a style="text-decoration: none; color: #FFFFFF" href="/"> <h3>RuqGen</h3> </a>
         </div>
         <div class="disclaimer-questions">
             <div class="footerlinks">
@@ -117,7 +101,7 @@
                     <li><a href="">Privacy Policy</a></li>
                     <li><a href=""><span class="circle-divider"></span>Terms of Use</a></li>
                 </ul>
-                <p>78TC Gen &copy; <span id='year'></span>. All rights reserved.</p>
+                <p>RuqGen &copy; <span id='year'></span>. All rights reserved.</p>
             </div> 
         </div>
     </footer>

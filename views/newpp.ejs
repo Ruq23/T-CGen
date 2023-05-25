@@ -4,70 +4,108 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>unPopTake</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/navbar.css">
+    <link rel="stylesheet" href="/stylesheets/newtc.css">
+
+
 </head>
 <body>
-    <h3>New Template</h3>
-    <form action="/indexx" method="POST">
-        <!-- <div>
-            <select name="tc" id="tc">
-                <% for(let tc of tcs) { %> 
-                    <option value="<%=tc%>"><%=tc%></option>
-                <% } %> 
-            </select>
-        </div> -->
-        <div>
-            <label for="company_name">company name</label>
-            <input type="text" name="company_name" id="company_name" required>
+    <header class="header">
+        <nav class="nav-js">
+            <div class="mobile-menu">
+                <!-- <img src="/images/logo2.png" alt="logo" class="nav-logo"> -->
+               <a style="text-decoration: none; color: #721121" href="/"> <h3>RuqGen</h3> </a>
+                <a href="" class="hamburger" onclick="toggleMenu()">
+                     <!-- <img href="./assets/{{menu.svg}}"  alt="menu" width="32px" height="32px" class="menu-btn">-->
+                    <img src="/images/menu.svg" alt="menu" width="32px" height="32px" class="menu-btn">
+                    <!-- <span class="bars"></span>
+                    <span class="bars"></span>
+                    <span class="bars"></span> -->
+                </a>
+            
+            </div>
+            <div class="links-btns">
+                <ul class="nav-links">
+                    <li><a href="/account/teamdetails">Our Team</a></li>
+                    <!-- <li><a href="#">Features</a></li> -->
+                    <li><a href="/account/faq">FAQs</a></li>
+                    <li><a href="/account/contact">Contact Us</a></li>
+                </ul>
+                <div class="nav-btns">
+                    <% if (currentUser) {%>
+                    <a href="/logout"><button class="btn-1">Logout</button></a>
+                     <%} else {%>
+                    <a href="/login"><button class="btn-1">Login</button></a>
+                    <a href="/register"><button class="btn-2">Get Started</button></a>
+                     <% } %>
+                </div>
+            </div>
+        </nav>
+    </header>      
+    <main>
+        <div class="main-one">
+          <div class="one-one">
+            <img src="images/hero-image.svg" alt="">
+          </div>
+          <div class="one-two">
+            <h6><b> Help us know your business</b></h6>
+            <p>By filling this form, you accept that your details will be used to generate a <br>
+            Privacy Policy Template for yo.u</p>
+            <form action="/indexx" method="POST">
+                <div>
+                <input type="text" placeholder="Company's Name" name="company_name" id="company_name" required>
+            </div>
+            <div>
+                <input type="text" placeholder="Company's Website" name="company_website" id="company_website" required>
+            </div>
+            <div>
+                <input type="text" placeholder="Country" name="country" id="country" required>
+            </div>
+            <div>
+                <input type="text" placeholder="Policy Effectivee Date" name="policyEffeciveDate" id="policyEffeciveDate:" onfocus="(this.type='date')" required>
+            </div>
+            <div>
+                <input type="text" placeholder="Address" name="address" id="address" required>
+            </div>
+            <div>
+                <input type="text" name="phone" id="phone" placeholder="Phone Number" required>
+            </div>
+            <div>
+                <input type="email" placeholder="Email" name="email" id="email" required>
+            </div>
+            <div class="not">
+                <label for="industry">Industry</label>
+                <select name="industry" id="industry">
+                    <option value="Generic">Generic</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Tech">Tech</option>
+                    <option value="E-Commerce">E-Commerce</option>
+                    <option value="Art">Art</option>
+                    <option value="Entertainment">Entertainment</option>
+                </select>
+            </div>
+            <div class="maybe">
+                <label for="privacy">Privacy</label>
+                <input type="checkbox" checked="checked" name="privacy" id="privacy" placeholder="Privacy">
+                <label for="gdrp">GDRP Wording</label>
+                <input type="checkbox" checked="checked" name="gdrp" id="gdrp" >
+                <label for="ads">Ads</label>
+                <input type="checkbox" checked="checked" name="ads" id="ads">
+            </div>
+           
+            <button style="background-color: #721121;" id="bo">Generate</button> <br>
+             </div>
+            </form>
+          </div>
         </div>
-        <div>
-            <label for="company_website">company website</label>
-            <input type="text" name="company_website" id="company_website" required>
-        </div>
-        <div>
-            <label for="country">Country</label>
-            <input type="text" name="country" id="country" required>
-        </div>
-        <div>
-            <label for="policyEffectiveDate">policyEffectiveDate</label>
-            <input type="text" name="policyEffeciveDate" id="policyEffeciveDate" required>
-        </div>
-        <div>
-            <label for="address">Address</label>
-            <input type="text" name="address" id="address" required>
-        </div>
-        <div>
-            <label for="phone">Mobile No</label>
-            <input type="text" name="phone" id="phone" required>
-        </div>
-        <div>
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" required>
-        </div>
-        <div>
-            <label for="industry">Industry</label>
-            <select name="industry" id="industry">
-                <option value="Generic">Generic</option>
-                <option value="Finance">Finance</option>
-                <option value="Tech">Tech</option>
-                <option value="E-Commerce">E-Commerce</option>
-                <option value="Art">Art</option>
-                <option value="Entertainment">Entertainment</option>
-            </select>
-        </div>
-        <div>
-            <label for="privacy">Privacy</label>
-            <input type="checkbox" checked="checked" name="privacy" id="privacy">
-        </div>
-        <div>
-            <label for="gdrp">GDRP Wording</label>
-            <input type="checkbox" checked="checked" name="gdrp" id="gdrp" >
-        </div>
-        <div>
-            <label for="ads">Ads</label>
-            <input type="checkbox" checked="checked" name="ads" id="ads">
-        </div>
-        <button>Submit</button>
-    </form>
+      </main>
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 </html>

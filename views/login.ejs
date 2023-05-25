@@ -17,26 +17,21 @@
     <nav>
            <!-- new additions -->
         <div class="mobile-nav">
-           <a href="/"> <img src="{% static '/images/Logo.svg' %}" alt="logo"></a>
-            <a href="" onclick="openMenu()" class="menu-button"><img src="{% static '/images/menu.png' %}" alt="menu button"></a>
+            <a style="text-decoration: none; color: #721121" href="/"> <h3>RuqGen</h3> </a>
+            <a href="" onclick="openMenu()" class="menu-button"><img src="/images/menu.png" alt="menu button"></a>
         </div>
         <div class="navlink">
-            <a href="register">Don't have an account?</a>
-            <a href="register"><button>Sign up</button></a>
+            <a href="/register">Don't have an account?</a>
+            <a href="/register"><button>Sign up</button></a>
         </div>
     </nav>
     <main>
         <div class="signin-illustration">
-            <img src="{% static '/images/signin.png' %}" alt="illustration">
+            <img src="/images/signin.png" alt="illustration">
         </div>
         <div class="signin-text">
             <form action="/login" method="POST">
                 <h1>Welcome back!</h1>
-                <!-- <div>
-                    {% for message in messages %}
-                   <h3 style="text-align:center; color:#721121;"> {{message}}</h3>
-                   {% endfor %}
-               </div> -->
                <div class="input-container">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username"  placeholder="JohnDoe23" required>

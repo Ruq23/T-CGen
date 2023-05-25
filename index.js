@@ -4,6 +4,8 @@ const ejsMate = require('ejs-mate');
 const path = require('path');
 const methodOverride = require('method-override');
 const session = require('express-session')
+const flash = require('connect-flash');
+
 
 const dotenv = require("dotenv").config();
 const bcrypt = require('bcryptjs')
@@ -16,13 +18,15 @@ const catchAsync = require('./utilities/catchAsync')
 
 const User = require('./models/user');
 const Template = require('./models/template');
-const { verifyToken } = require('./middleware');
+const { verifyToken, isLoggedIn } = require('./middleware');
 
 
 mongoose.connect('mongodb://localhost:27017/tcGenDb', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
@@ -55,13 +59,13 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(cookieParser());
-// app.use(flash());
+app.use(flash());
 
 app.use((req, res, next) => {
     console.log(req.session)
    res.locals.currentUser = req.session.user_id;
-//    res.locals.success = req.flash('success');
-//    res.locals.error = req.flash('error');
+   res.locals.success = req.flash('success');
+   res.locals.error = req.flash('error');
    res.locals.session = req.session
    next();
 })
@@ -88,7 +92,7 @@ app.get('/register', async(req, res) => {
     res.render('register.ejs')
 })
 
-app.post('/register',  (async(req, res, next) => {
+app.post('/register',  (catchAsync( async(req, res, next) => {
 
     try {
     const { first_name, last_name, username, email, password } = req.body;
@@ -128,7 +132,7 @@ app.post('/register',  (async(req, res, next) => {
   console.log(err);
 }
     
-}))
+})))
 
 
 
@@ -138,7 +142,7 @@ app.get('/login', async(req, res) => {
 
 
 
-app.post('/login', async(req, res, next) => {
+app.post('/login', catchAsync( async(req, res, next) => {
     try {
         const { username, password } = req.body;
 
@@ -172,22 +176,22 @@ app.post('/login', async(req, res, next) => {
     }catch(err){
         console.log(err);
     }
-})
+}))
 
-app.get('/logout', async(req, res) => {
+app.get('/logout', catchAsync( async(req, res) => {
     req.session.destroy();
     res.redirect('/')
-})
+}))
 
 //Templates
-app.get('/newtc', catchAsync(async(req, res, next) => {
-    res.render('new', {tcs})
+app.get('/newtc', isLoggedIn, catchAsync(async(req, res, next) => {
+    res.render('newtc', {tcs})
     console.log(req.session.user_id)
     console.log(req.session)
 
 }))
 
-app.post('/index', catchAsync(async(req, res, next) => {
+app.post('/index', isLoggedIn, catchAsync(async(req, res, next) => {
     const { tc, company_name, company_website, country, policyEffeciveDate, address, phone, email, industry, privacy, gdrp, ads } = req.body
 
     const template = await Template.create({
@@ -209,14 +213,14 @@ app.post('/index', catchAsync(async(req, res, next) => {
     res.send(template)
 }))
 
-app.get('/newpp', catchAsync(async(req, res, next) => {
+app.get('/newpp', isLoggedIn, catchAsync(async(req, res, next) => {
     res.render('newpp', {tcs})
     console.log(req.session.user_id)
     console.log(req.session)
 
 }))
 
-app.post('/indexx', catchAsync(async(req, res, next) => {
+app.post('/indexx', isLoggedIn, catchAsync(async(req, res, next) => {
     const { tc, company_name, company_website, country, policyEffeciveDate, address, phone, email, industry, privacy, gdrp, ads } = req.body
 
     const template = await Template.create({
@@ -238,39 +242,71 @@ app.post('/indexx', catchAsync(async(req, res, next) => {
     res.send(template)
 }))
 
-app.get('/myTemplates', catchAsync(async(req, res, next) => {
+app.get('/myTemplates', isLoggedIn, catchAsync(async(req, res, next) => {
     const templates = await Template.find({ author: req.session.user_id })
     console.log(templates)
     console.log(req.session.user_id)
     res.render('templates', { templates })
 }))
 
-app.get('/ppTemplates', catchAsync(async(req, res, next) => {
+app.get('/ppTemplates', isLoggedIn, catchAsync(async(req, res, next) => {
     const templates = await Template.find({ author: req.session.user_id })
     console.log(templates)
     console.log(req.session.user_id)
     res.render('pp_template', { templates })
 }))
 
-app.get('/tcTemplates', catchAsync(async(req, res, next) => {
+app.get('/tcTemplates', isLoggedIn, catchAsync(async(req, res, next) => {
     const templates = await Template.find({ author: req.session.user_id })
     console.log(templates)
     console.log(req.session.user_id)
     res.render('tc_template', { templates })
 }))
 
-app.get('/myTemplates/:id', catchAsync(async(req, res) => {
+app.get('/myTemplates/:id', isLoggedIn, catchAsync(async(req, res) => {
     const { id } = req.params
     const template = await Template.findById(id)
     console.log(template)
-    res.render('template', { template})
+    res.render('show', { template})
 }))
 
-app.get('/dashboard/:id', async(req, res) => {
+app.delete('/myTemplates/:id', isLoggedIn, catchAsync(async(req, res) => {
+    const { id } = req.params
+    const deleteTemplate = await Template.findByIdAndDelete(id)
+    res.redirect('/myTemplates')
+}))
+
+app.get('/myTemplates/:id/edit',isLoggedIn, catchAsync(async(req, res) => {
+    const { id } = req.params
+    const template = await Template.findById(id)
+    console.log(template)
+    res.render('edit', { template})
+}))
+
+app.put('/myTemplates/:id',isLoggedIn, catchAsync(async(req, res) => {
+    const { id } = req.params
+    const template = await Template.findByIdAndUpdate(id, req.body)
+    res.redirect(`/myTemplates/${template._id}`)
+
+}))
+
+
+app.get('/dashboard/:id',isLoggedIn, catchAsync( async(req, res) => {
     const { id } = req.params 
     const user = await User.findById(id)
     console.log(user)
     res.render('dashboard.ejs', { user })
+}))
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+} )
+
+app.use((err, req, res, next) => {
+    const{statusCode = 500} = err
+    if(!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('error.ejs', { err });
+    // res.status(statusCode).send('Error')
 })
 
 app.listen(3000, () => {
