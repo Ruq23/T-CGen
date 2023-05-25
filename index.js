@@ -5,6 +5,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const session = require('cookie-session')
 const flash = require('connect-flash');
+const port = process.env.PORT || 3000;
 
 
 const dotenv = require("dotenv").config();
@@ -315,6 +316,6 @@ app.use((err, req, res, next) => {
     // res.status(statusCode).send('Error')
 })
 
-app.listen(3000, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log('Serving on port 3000')
 })
