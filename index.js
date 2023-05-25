@@ -3,7 +3,7 @@ const mongoose = require ('mongoose');
 const ejsMate = require('ejs-mate');
 const path = require('path');
 const methodOverride = require('method-override');
-const session = require('express-session')
+const session = require('cookie-session')
 const flash = require('connect-flash');
 
 
