@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
+
 const express = require('express');
 const mongoose = require ('mongoose');
 const ejsMate = require('ejs-mate');
@@ -12,6 +17,7 @@ const dotenv = require("dotenv").config();
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cookieParser = require("cookie-parser");
+const mongoSanitize = require('express-mongo-sanitize');
 
 
 const ExpressError = require('./utilities/ExpressError')
@@ -27,11 +33,15 @@ const { verifyToken, isLoggedIn } = require('./middleware');
 //     useUnifiedTopology: true
 // });
 
-mongoose.connect('mongodb://mongo:acH0a8Ko3FjvQWEDu345@containers-us-west-54.railway.app:7190', {
+// mongoose.connect('mongodb://mongo:acH0a8Ko3FjvQWEDu345@containers-us-west-54.railway.app:7190', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
+
+mongoose.connect(process.env.MONGODB_CONNECT_URI), {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
-
+}
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
@@ -65,6 +75,10 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(cookieParser());
 app.use(flash());
+
+app.use(mongoSanitize({
+    replaceWith: '_'
+}))
 
 app.use((req, res, next) => {
     console.log(req.session)
@@ -316,6 +330,8 @@ app.use((err, req, res, next) => {
     // res.status(statusCode).send('Error')
 })
 
-app.listen(port, "0.0.0.0", () => {
-    console.log('Serving on port 3000')
+
+const PORT = process.env.PORT
+app.listen(PORT, () => {
+    console.log('Serving on port ' + PORT )
 })
