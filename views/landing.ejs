@@ -87,7 +87,11 @@
                     </div>
                 </div>
             </div>
-            <a href="account/register"><button>Start Generating</button></a>
+            <% if (currentUser) {%>
+            <a href="/dashboard/<%=currentUser%>"><button>Start Generating</button></a>
+                 <%} else {%>
+                    <a href="register"><button>Start Generating</button></a>
+                 <% } %>
         </section>/
        
     </main>
